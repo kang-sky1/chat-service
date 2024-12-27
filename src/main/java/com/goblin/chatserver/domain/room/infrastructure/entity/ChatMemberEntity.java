@@ -1,6 +1,8 @@
 package com.goblin.chatserver.domain.room.infrastructure.entity;
 
 import com.goblin.chatserver.domain.member.infrastructure.entity.MemberEntity;
+import com.goblin.chatserver.domain.room.model.ChatMember;
+import com.goblin.chatserver.domain.room.model.ChatRoom;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -31,10 +33,10 @@ public class ChatMemberEntity {
     @JoinColumn(name = "chat_room")
     private ChatRoomEntity chatRoom;
 
-    public static ChatMemberEntity create(MemberEntity member, ChatRoomEntity chatRoom) {
+    public static ChatMemberEntity create(ChatMember chatMember) {
         return ChatMemberEntity.builder()
-            .member(member)
-            .chatRoom(chatRoom)
+            .member(MemberEntity.create(chatMember.member()))
+            .chatRoom(ChatRoomEntity.create(chatMember.chatRoom()))
             .build();
     }
 }

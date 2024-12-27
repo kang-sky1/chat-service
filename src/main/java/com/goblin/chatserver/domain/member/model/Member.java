@@ -9,7 +9,7 @@ public record Member(
     String password
 ) {
 
-    public static Member of(String name, String password) {
+    public static Member create(String name, String password) {
         return Member.builder()
             .name(name)
             .password(password)
