@@ -32,7 +32,6 @@ public class MemberEntity {
     public static MemberEntity create(Member member){
         return MemberEntity.builder()
             .name(member.name())
-            .password(member.password())
             .build();
     }
 
@@ -40,7 +39,6 @@ public class MemberEntity {
         return Member.builder()
             .id(this.id)
             .name(this.name)
-            .password(this.password)
             .build();
     }
 

@@ -5,14 +5,12 @@ import lombok.Builder;
 @Builder
 public record Member(
     Long id,
-    String name,
-    String password
+    String name
 ) {
 
     public static Member create(String name, String password) {
         return Member.builder()
             .name(name)
-            .password(password)
             .build();
     }
 }
