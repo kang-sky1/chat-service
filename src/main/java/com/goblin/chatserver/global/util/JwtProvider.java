@@ -1,4 +1,4 @@
-package com.goblin.chatserver.global;
+package com.goblin.chatserver.global.util;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -33,13 +33,34 @@ public class JwtProvider {
         key = Keys.hmacShaKeyFor(bytes);
     }
 
-    public String getTokenFromHeader(HttpServletRequest request) {
+    public String createToken(String uuid) {
+        Date expireDate = createExpireDate(TOKEN_TIME);
+
+        return BEARER_PREFIX +
+            Jwts.builder()
+                .setSubject(uuid)
+                .setExpiration(expireDate)
+                .setIssuedAt(new Date())
+                .signWith(key, signatureAlgorithm)
+                .compact();
+    }
+
+    public String parseToken(HttpServletRequest request) {
         String tokenValue = request.getHeader(AUTHORIZATION_HEADER);
         log.info(tokenValue);
         if (StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) {
-            return tokenValue.substring(7);
+            return tokenValue.substring(BEARER_PREFIX.length());
         }
-        return null;
+
+        throw new NullPointerException("토큰이 존재하지 않습니다.");
+    }
+
+    public String extractInfoFromToken(String token) {
+        return Jwts.parserBuilder()
+            .setSigningKey(key).build()
+            .parseClaimsJws(token)
+            .getBody()
+            .getSubject();
     }
 
     public boolean validateToken(String token) {
@@ -58,25 +79,7 @@ public class JwtProvider {
         return false;
     }
 
-    public String getMemberInfoFromToken(String token) {
-        return Jwts.parserBuilder()
-            .setSigningKey(key).build()
-            .parseClaimsJws(token)
-            .getBody()
-            .getSubject();
-    }
 
-    public String createToken(String uuid) {
-        Date expireDate = createExpireDate(TOKEN_TIME);
-
-        return BEARER_PREFIX +
-            Jwts.builder()
-                .setSubject(uuid)
-                .setExpiration(expireDate)
-                .setIssuedAt(new Date())
-                .signWith(key, signatureAlgorithm)
-                .compact();
-    }
 
     private Date createExpireDate(long expireDate) {
         long curTime = (new Date()).getTime();
