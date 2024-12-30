@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/chat_service
+    url: jdbc:mysql://localhost:3306/chat_server
     username: root
     password: 1234
 
@@ -20,4 +20,4 @@ logging:
 
 jwt:
   secret:
-    key: "4714559cf0bd05573220c2b5f0e4f55cb2668679de7e5e5db7afd01c5c3ea0dac72f9e4fb717758e381d7af50b335bdb8768cd95a4deafbb7fb74ded50cc2e9d  "
+    key: "4714559cf0bd05573220c2b5f0e4f55cb2668679de7e5e5db7afd01c5c3ea0dac72f9e4fb717758e381d7af50b335bdb8768cd95a4deafbb7fb74ded50cc2e9d"

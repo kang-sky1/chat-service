@@ -8,9 +8,9 @@ public record Member(
     String name
 ) {
 
-    public static Member create(String name, String password) {
+    public static Member create(MemberCreate memberCreate) {
         return Member.builder()
-            .name(name)
+            .name(memberCreate.name())
             .build();
     }
 }
